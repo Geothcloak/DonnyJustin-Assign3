@@ -14,6 +14,7 @@ namespace DonnyJustin_Assign3
     public partial class Form1 : Form
     {
         List<Course> coursePool = new List<Course>();
+        List<History> historyPool = new List<History>();
         IDictionary<uint, Student> studentPool = new Dictionary<uint, Student>();
         System.Collections.Generic.SortedDictionary<uint, Student> sortedPool = null;
 
@@ -31,7 +32,7 @@ namespace DonnyJustin_Assign3
             string[] majorLines = File.ReadAllLines("../../input_03.txt");
 
             // read grades input file
-            string[] gradeLines = File.ReadAllLines("../../input_04.txt");
+            string[] historyLines = File.ReadAllLines("../../input_05.txt");
 
             // add courses to coursePool list
             for (int i = 0; i < courseLines.Length; i++)
@@ -39,6 +40,14 @@ namespace DonnyJustin_Assign3
                 Course course = new Course(courseLines[i]);
                 coursePool.Add(course);
             }
+
+            // add attempt to historyPool list
+            for (int i = 0; i < historyLines.Length; i++)
+            {
+                History attempt = new History(historyLines[i]);
+                historyPool.Add(attempt);
+            }
+
             // add values to studentPool dictionary
             for (int i = 0; i < studentLines.Length; i++)
             {
@@ -48,12 +57,29 @@ namespace DonnyJustin_Assign3
                 studentPool.Add(zid, student);
             }
 
+            /*
+             
+            zid:       class 1 grade        [zid] [[dept][class][grade]]
+                       class 2 grade
+
+            zid:       class 1 grade
+
+
+            dictionary w/ list of history objects as val
+            */
+
+
+
+
+
             // Sort Dictionary by ZID and store in new Dictionary
             if (studentPool != null)
                 sortedPool = new SortedDictionary<uint, Student>(studentPool);
 
             // Sort Courses alphabetically
             var sortedCourses = sortCourses(coursePool);
+
+            
         }
 
         private List<Course> sortCourses(List<Course> coursePool)

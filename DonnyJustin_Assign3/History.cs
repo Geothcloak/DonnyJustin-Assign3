@@ -9,7 +9,7 @@ namespace DonnyJustin_Assign3
 {
     class History
     {
-        readonly uint zid;
+        private uint zid;
         private string dept;
         private int courseNum;
         private string grade;
@@ -27,15 +27,20 @@ namespace DonnyJustin_Assign3
             // prase line with ',' as deliminator
             string[] tokens = line.Split(',');
 
-            // set values
+            // convert/set values
             uint id = Convert.ToUInt32(tokens[0]);
-            this.zid = id;
+            int num = Convert.ToInt16(tokens[2]);
+
+            setZid(id);
             setDept(tokens[1]);
-
-            int num = Convert.ToUInt16(tokens[2]);
             setCourseNum(num);
-
             setGrade(tokens[3]);
+        }
+
+        //set zid
+        public void setZid(uint zid)
+        {
+            this.zid = zid;
         }
 
         //set dept
@@ -54,7 +59,7 @@ namespace DonnyJustin_Assign3
                 if (!(isUpper = Char.IsUpper(dept, i)))
                     throw new System.ArgumentException("All department code characters must be capitalized.");
             }
-
+            
             this.dept = dept;
         }
 
