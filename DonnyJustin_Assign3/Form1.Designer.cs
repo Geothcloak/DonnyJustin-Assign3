@@ -57,11 +57,20 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.greaterThan_RadioButton3 = new System.Windows.Forms.RadioButton();
             this.lessThan_RadioButton3 = new System.Windows.Forms.RadioButton();
+            this.greaterThan_RadioButton3 = new System.Windows.Forms.RadioButton();
+            this.failReport_Button = new System.Windows.Forms.Button();
+            this.passReport_Button = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.failReport_UpDown = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.passReport_ComboBox = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.query_ListBox = new System.Windows.Forms.ListBox();
             this.Threshold_GroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.failReport_UpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -355,6 +364,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
+            // lessThan_RadioButton3
+            // 
+            this.lessThan_RadioButton3.AutoSize = true;
+            this.lessThan_RadioButton3.Location = new System.Drawing.Point(6, 19);
+            this.lessThan_RadioButton3.Name = "lessThan_RadioButton3";
+            this.lessThan_RadioButton3.Size = new System.Drawing.Size(133, 17);
+            this.lessThan_RadioButton3.TabIndex = 7;
+            this.lessThan_RadioButton3.TabStop = true;
+            this.lessThan_RadioButton3.Text = "Less Than or Equal To";
+            this.lessThan_RadioButton3.UseVisualStyleBackColor = true;
+            // 
             // greaterThan_RadioButton3
             // 
             this.greaterThan_RadioButton3.AutoSize = true;
@@ -367,22 +387,96 @@
             this.greaterThan_RadioButton3.UseVisualStyleBackColor = true;
             this.greaterThan_RadioButton3.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
-            // lessThan_RadioButton3
+            // failReport_Button
             // 
-            this.lessThan_RadioButton3.AutoSize = true;
-            this.lessThan_RadioButton3.Location = new System.Drawing.Point(6, 19);
-            this.lessThan_RadioButton3.Name = "lessThan_RadioButton3";
-            this.lessThan_RadioButton3.Size = new System.Drawing.Size(133, 17);
-            this.lessThan_RadioButton3.TabIndex = 7;
-            this.lessThan_RadioButton3.TabStop = true;
-            this.lessThan_RadioButton3.Text = "Less Than or Equal To";
-            this.lessThan_RadioButton3.UseVisualStyleBackColor = true;
+            this.failReport_Button.AutoEllipsis = true;
+            this.failReport_Button.BackColor = System.Drawing.Color.Transparent;
+            this.failReport_Button.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.failReport_Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.failReport_Button.Location = new System.Drawing.Point(382, 430);
+            this.failReport_Button.Name = "failReport_Button";
+            this.failReport_Button.Size = new System.Drawing.Size(82, 23);
+            this.failReport_Button.TabIndex = 26;
+            this.failReport_Button.Text = "Show Results";
+            this.failReport_Button.UseVisualStyleBackColor = false;
+            // 
+            // passReport_Button
+            // 
+            this.passReport_Button.AutoEllipsis = true;
+            this.passReport_Button.BackColor = System.Drawing.Color.Transparent;
+            this.passReport_Button.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.passReport_Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.passReport_Button.Location = new System.Drawing.Point(382, 535);
+            this.passReport_Button.Name = "passReport_Button";
+            this.passReport_Button.Size = new System.Drawing.Size(82, 23);
+            this.passReport_Button.TabIndex = 27;
+            this.passReport_Button.Text = "Show Results";
+            this.passReport_Button.UseVisualStyleBackColor = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(221, 417);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(62, 13);
+            this.label13.TabIndex = 28;
+            this.label13.Text = "Percentage";
+            // 
+            // failReport_UpDown
+            // 
+            this.failReport_UpDown.Location = new System.Drawing.Point(221, 433);
+            this.failReport_UpDown.Name = "failReport_UpDown";
+            this.failReport_UpDown.Size = new System.Drawing.Size(62, 20);
+            this.failReport_UpDown.TabIndex = 29;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(221, 522);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(36, 13);
+            this.label14.TabIndex = 30;
+            this.label14.Text = "Grade";
+            // 
+            // passReport_ComboBox
+            // 
+            this.passReport_ComboBox.FormattingEnabled = true;
+            this.passReport_ComboBox.Location = new System.Drawing.Point(221, 541);
+            this.passReport_ComboBox.Name = "passReport_ComboBox";
+            this.passReport_ComboBox.Size = new System.Drawing.Size(36, 21);
+            this.passReport_ComboBox.TabIndex = 31;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(487, 9);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(115, 18);
+            this.label15.TabIndex = 32;
+            this.label15.Text = "Query Results";
+            // 
+            // query_ListBox
+            // 
+            this.query_ListBox.FormattingEnabled = true;
+            this.query_ListBox.Location = new System.Drawing.Point(490, 33);
+            this.query_ListBox.Name = "query_ListBox";
+            this.query_ListBox.Size = new System.Drawing.Size(479, 589);
+            this.query_ListBox.TabIndex = 33;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 627);
+            this.Controls.Add(this.query_ListBox);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.passReport_ComboBox);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.failReport_UpDown);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.passReport_Button);
+            this.Controls.Add(this.failReport_Button);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label11);
@@ -416,6 +510,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.failReport_UpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -455,6 +550,14 @@
         //private System.Windows.Forms.RadioButton lessThan_RadioButton3;
         private System.Windows.Forms.RadioButton greaterThan_RadioButton3;
         private System.Windows.Forms.RadioButton lessThan_RadioButton3;
+        private System.Windows.Forms.Button failReport_Button;
+        private System.Windows.Forms.Button passReport_Button;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown failReport_UpDown;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox passReport_ComboBox;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ListBox query_ListBox;
     }
 }
 
