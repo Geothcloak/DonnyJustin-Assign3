@@ -112,6 +112,7 @@
             this.gradeReportOneStudent_Button.TabIndex = 3;
             this.gradeReportOneStudent_Button.Text = "Show Results";
             this.gradeReportOneStudent_Button.UseVisualStyleBackColor = false;
+            this.gradeReportOneStudent_Button.Click += new System.EventHandler(this.gradeReportOneStudent_Button_Click);
             // 
             // label3
             // 
@@ -385,7 +386,6 @@
             this.greaterThan_RadioButton3.TabStop = true;
             this.greaterThan_RadioButton3.Text = "Greater Than or Equal To";
             this.greaterThan_RadioButton3.UseVisualStyleBackColor = true;
-            this.greaterThan_RadioButton3.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // failReport_Button
             // 

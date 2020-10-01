@@ -63,7 +63,7 @@ namespace DonnyJustin_Assign3
             return sortedCourses;
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void gradeReportOneStudent_Button_Click(object sender, EventArgs e)
         {
 
         }
