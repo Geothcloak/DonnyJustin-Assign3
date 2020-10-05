@@ -171,7 +171,7 @@
             this.grade1_ComboBox.FormattingEnabled = true;
             this.grade1_ComboBox.Location = new System.Drawing.Point(221, 147);
             this.grade1_ComboBox.Name = "grade1_ComboBox";
-            this.grade1_ComboBox.Size = new System.Drawing.Size(36, 21);
+            this.grade1_ComboBox.Size = new System.Drawing.Size(47, 21);
             this.grade1_ComboBox.TabIndex = 9;
             // 
             // label5
@@ -203,6 +203,7 @@
             this.gradeThreshold_Button.TabIndex = 12;
             this.gradeThreshold_Button.Text = "Show Results";
             this.gradeThreshold_Button.UseVisualStyleBackColor = false;
+            this.gradeThreshold_Button.Click += new System.EventHandler(this.gradeThreshold_Button_Click);
             // 
             // label6
             // 

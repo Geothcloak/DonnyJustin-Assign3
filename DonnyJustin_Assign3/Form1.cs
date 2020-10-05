@@ -57,21 +57,6 @@ namespace DonnyJustin_Assign3
                 studentPool.Add(zid, student);
             }
 
-            /*
-             
-            zid:       class 1 grade        [zid] [[dept][class][grade]]
-                       class 2 grade
-
-            zid:       class 1 grade
-
-
-            dictionary w/ list of history objects as val
-            */
-
-
-
-
-
             // Sort Dictionary by ZID and store in new Dictionary
             if (studentPool != null)
                 sortedPool = new SortedDictionary<uint, Student>(studentPool);
@@ -79,7 +64,19 @@ namespace DonnyJustin_Assign3
             // Sort Courses alphabetically
             var sortedCourses = sortCourses(coursePool);
 
-            
+            // add items to major_ComboBox
+            grade1_ComboBox.Items.Add("A");
+            grade1_ComboBox.Items.Add("A-");
+            grade1_ComboBox.Items.Add("B+");
+            grade1_ComboBox.Items.Add("B");
+            grade1_ComboBox.Items.Add("B-");
+            grade1_ComboBox.Items.Add("C++");
+            grade1_ComboBox.Items.Add("C");
+            grade1_ComboBox.Items.Add("C-");
+            grade1_ComboBox.Items.Add("D+");
+            grade1_ComboBox.Items.Add("D");
+            grade1_ComboBox.Items.Add("D-");
+            grade1_ComboBox.Items.Add("F");
         }
 
         private List<Course> sortCourses(List<Course> coursePool)
@@ -104,6 +101,73 @@ namespace DonnyJustin_Assign3
             foreach (var i in Query)
                 query_ListBox.Items.Add(i.ToString());
   
+        }
+
+        private void gradeThreshold_Button_Click(object sender, EventArgs e)
+        {
+            query_ListBox.Items.Clear();
+            string grade = (string)grade1_ComboBox.SelectedItem;
+            string course = courseThreshold_RichTextBox.Text;
+
+            // parse course input
+            string[] courseTokens = course.Split(' ');
+
+            if (lessThan_RadioButton1.Checked)
+            {
+                var Query =
+                from N in historyPool
+                where getAsciiValue(N.getGrade()) >= getAsciiValue(grade) && courseTokens[0] == N.getDept() && courseTokens[1] == N.getCourseNum().ToString()
+                select N.getZid() + "   " + N.getDept() + "    " + N.getCourseNum() + "     " + N.getGrade();
+
+                foreach (var i in Query)
+                    query_ListBox.Items.Add(i.ToString());
+            }
+            else if (greaterThan_RadioButton1.Checked)
+            {
+                var Query =
+                from N in historyPool
+                where getAsciiValue(N.getGrade()) <= getAsciiValue(grade) && courseTokens[0] == N.getDept() && courseTokens[1] == N.getCourseNum().ToString()
+                select N.getZid() + "   " + N.getDept() + "    " + N.getCourseNum() + "     " + N.getGrade();
+
+                foreach (var i in Query)
+                    query_ListBox.Items.Add(i.ToString());
+            }
+        }
+
+        // return adjusted ascii value
+        private int getAsciiValue(string grade)
+        {
+            char letter = ' ';
+            char sign = ' ';
+            int asciiVal = 0;
+
+            if (grade.Length == 1)
+            {
+                letter = grade[0];
+                asciiVal = (int)letter;
+                return asciiVal * 3;
+            }
+            else if (grade.Length > 1)
+            {
+                letter = grade[0];
+                sign = grade[1];
+                int letterVal = (int)letter * 3;
+                int signVal = (int)sign;
+                if (signVal == 43)
+                {
+                    // sign is +
+                    signVal -= (signVal + 1);
+                }
+                else
+                {
+                    // sign is -
+                    signVal -= (signVal - 1);
+                }
+
+                asciiVal = letterVal + signVal;
+                return asciiVal;
+            }
+            return 0;
         }
 
         private void gradeReportOneCourse_Button_Click(object sender, EventArgs e)
