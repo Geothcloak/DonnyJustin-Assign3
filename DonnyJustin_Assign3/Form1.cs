@@ -91,7 +91,34 @@ namespace DonnyJustin_Assign3
 
         private void gradeReportOneStudent_Button_Click(object sender, EventArgs e)
         {
+            query_ListBox.Items.Clear();
+            string temp = ZID_RichTextBox.Text;
+            int zid = Convert.ToInt32(temp);
 
+
+            var Query =
+                from N in historyPool
+                where N.getZid() == zid
+                select N.getDept() + "       " + N.getCourseNum()  + "       " + N.getGrade();
+
+            foreach (var i in Query)
+                query_ListBox.Items.Add(i.ToString());
+  
+        }
+
+        private void gradeReportOneCourse_Button_Click(object sender, EventArgs e)
+        {
+            query_ListBox.Items.Clear();
+
+            string temp = gradeReport_RichTextBox.Text;
+
+            var Query =
+                from N in historyPool
+                where N.getDept() == temp
+                select N.getZid() + "   "+ N.getGrade();
+
+            foreach (var i in Query)
+                query_ListBox.Items.Add(i);
         }
     }
 }

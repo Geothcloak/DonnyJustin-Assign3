@@ -44,7 +44,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.major_ComboBox = new System.Windows.Forms.ComboBox();
-            this.gradeThreshold_RichTextBox = new System.Windows.Forms.RichTextBox();
+            this.courseFail_RichTextBox = new System.Windows.Forms.RichTextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.majorFails_Button = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
@@ -231,13 +231,13 @@
             this.major_ComboBox.Size = new System.Drawing.Size(146, 21);
             this.major_ComboBox.TabIndex = 15;
             // 
-            // gradeThreshold_RichTextBox
+            // courseFail_RichTextBox
             // 
-            this.gradeThreshold_RichTextBox.Location = new System.Drawing.Point(276, 244);
-            this.gradeThreshold_RichTextBox.Name = "gradeThreshold_RichTextBox";
-            this.gradeThreshold_RichTextBox.Size = new System.Drawing.Size(100, 23);
-            this.gradeThreshold_RichTextBox.TabIndex = 17;
-            this.gradeThreshold_RichTextBox.Text = "";
+            this.courseFail_RichTextBox.Location = new System.Drawing.Point(276, 244);
+            this.courseFail_RichTextBox.Name = "courseFail_RichTextBox";
+            this.courseFail_RichTextBox.Size = new System.Drawing.Size(100, 23);
+            this.courseFail_RichTextBox.TabIndex = 17;
+            this.courseFail_RichTextBox.Text = "";
             // 
             // label8
             // 
@@ -300,6 +300,7 @@
             this.gradeReportOneCourse_Button.TabIndex = 22;
             this.gradeReportOneCourse_Button.Text = "Show Results";
             this.gradeReportOneCourse_Button.UseVisualStyleBackColor = false;
+            this.gradeReportOneCourse_Button.Click += new System.EventHandler(this.gradeReportOneCourse_Button_Click);
             // 
             // groupBox1
             // 
@@ -486,7 +487,7 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.majorFails_Button);
-            this.Controls.Add(this.gradeThreshold_RichTextBox);
+            this.Controls.Add(this.courseFail_RichTextBox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.major_ComboBox);
             this.Controls.Add(this.label7);
@@ -534,7 +535,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox major_ComboBox;
-        private System.Windows.Forms.RichTextBox gradeThreshold_RichTextBox;
+        private System.Windows.Forms.RichTextBox courseFail_RichTextBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button majorFails_Button;
         private System.Windows.Forms.Label label9;
