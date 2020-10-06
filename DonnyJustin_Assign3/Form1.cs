@@ -69,6 +69,11 @@ namespace DonnyJustin_Assign3
 
             // add items to grade_ComboBox
             addGrades(passReport_ComboBox);
+
+            foreach (var i in studentPool.Values)
+            {
+                topStudents(i);
+            }
         }
 
         private void addGrades(ComboBox box)
@@ -402,6 +407,55 @@ namespace DonnyJustin_Assign3
 
             int[] report = { passCount, enrolledCount };
             return report;
+        }
+
+        private void topStudents(Student student)
+        {
+            // loop through historyPool
+           /* var Query =
+                from H in historyPool
+                where H.getZid() == student.getZid()
+               select H.getZid() + " " + H.getGrade();*/
+           
+            IDictionary<uint, decimal> gradePool = new Dictionary<uint, decimal>();
+
+            List<uint> zidCheck = new List<uint>();
+
+            foreach (var h in historyPool)
+            {
+                int total = 0;
+                if (!zidCheck.Contains(h.getZid()))
+                {
+                    zidCheck.Add(h.getZid());
+                    var Query =
+                        from H in historyPool
+                        where H.getZid() == h.getZid()
+                        select H.getGrade();
+
+                    foreach (var i in Query)
+                    {
+                        total += getAsciiValue(i);
+                    }
+                    gradePool.Add(h.getZid(), total);
+                    //query_ListBox.Items.Add("gradePool: " + h.getZid() + ", " + total);
+
+                    //foreach (var c in zidCheck)
+                    //    query_ListBox.Items.Add("zidCheck: " + c);
+                    
+                }
+                //else
+                    //query_ListBox.Items.Add("************");
+                
+            }
+            int stop = 0;
+            foreach (KeyValuePair<uint, decimal> kvp in gradePool)
+            {
+                if (stop <= 1)
+                {
+                    query_ListBox.Items.Add(kvp.Key + " " + kvp.Value);
+                    stop++;
+                }
+            }
         }
     }
 }
