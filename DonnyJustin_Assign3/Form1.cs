@@ -32,7 +32,7 @@ namespace DonnyJustin_Assign3
             string[] majorLines = File.ReadAllLines("../../input_03.txt");
 
             // read grades input file
-            string[] historyLines = File.ReadAllLines("../../input_05.txt");
+            string[] historyLines = File.ReadAllLines("../../input_04.txt");
 
             // add courses to coursePool list
             for (int i = 0; i < courseLines.Length; i++)
@@ -64,19 +64,28 @@ namespace DonnyJustin_Assign3
             // Sort Courses alphabetically
             var sortedCourses = sortCourses(coursePool);
 
-            // add items to major_ComboBox
-            grade1_ComboBox.Items.Add("A");
-            grade1_ComboBox.Items.Add("A-");
-            grade1_ComboBox.Items.Add("B+");
-            grade1_ComboBox.Items.Add("B");
-            grade1_ComboBox.Items.Add("B-");
-            grade1_ComboBox.Items.Add("C++");
-            grade1_ComboBox.Items.Add("C");
-            grade1_ComboBox.Items.Add("C-");
-            grade1_ComboBox.Items.Add("D+");
-            grade1_ComboBox.Items.Add("D");
-            grade1_ComboBox.Items.Add("D-");
-            grade1_ComboBox.Items.Add("F");
+            // add items to grade_ComboBox
+            addGrades(grade1_ComboBox);
+
+            // add items to grade_ComboBox
+            addGrades(passReport_ComboBox);
+        }
+
+        private void addGrades(ComboBox box)
+        {
+            // add items to grade_ComboBox
+            box.Items.Add("A");
+            box.Items.Add("A-");
+            box.Items.Add("B+");
+            box.Items.Add("B");
+            box.Items.Add("B-");
+            box.Items.Add("C++");
+            box.Items.Add("C");
+            box.Items.Add("C-");
+            box.Items.Add("D+");
+            box.Items.Add("D");
+            box.Items.Add("D-");
+            box.Items.Add("F");
         }
 
         private List<Course> sortCourses(List<Course> coursePool)
@@ -92,15 +101,37 @@ namespace DonnyJustin_Assign3
             string temp = ZID_RichTextBox.Text;
             int zid = Convert.ToInt32(temp);
 
+            // check if student exists
+            bool studentExists = false;
+            foreach (KeyValuePair<uint, Student> kvp in studentPool)
+            {
+                if (zid != kvp.Key)
+                    studentExists = false;
+                else
+                {
+                    studentExists = true;
+                    break;
+                }
+            }
 
-            var Query =
+            if (studentExists)
+            {
+                var Query =
                 from N in historyPool
                 where N.getZid() == zid
-                select N.getDept() + "       " + N.getCourseNum()  + "       " + N.getGrade();
+                select N.getZid() + " | " + N.getDept() + " | " + N.getCourseNum() + " | " + N.getGrade();
 
-            foreach (var i in Query)
-                query_ListBox.Items.Add(i.ToString());
-  
+                query_ListBox.Items.Add("Single Student Grade Report (" + zid + ")");
+                query_ListBox.Items.Add("--------------------------------------");
+
+                foreach (var i in Query)
+                    query_ListBox.Items.Add(i.ToString());
+
+                query_ListBox.Items.Add("### END RESULTS ###");
+            }
+            else
+                query_ListBox.Items.Add("Student does not exist.");
+
         }
 
         private void gradeThreshold_Button_Click(object sender, EventArgs e)
@@ -112,26 +143,49 @@ namespace DonnyJustin_Assign3
             // parse course input
             string[] courseTokens = course.Split(' ');
 
-            if (lessThan_RadioButton1.Checked)
+            // check if class exists
+            bool classExists = false;
+            foreach (Course c in coursePool)
             {
-                var Query =
-                from N in historyPool
-                where getAsciiValue(N.getGrade()) >= getAsciiValue(grade) && courseTokens[0] == N.getDept() && courseTokens[1] == N.getCourseNum().ToString()
-                select N.getZid() + "   " + N.getDept() + "    " + N.getCourseNum() + "     " + N.getGrade();
-
-                foreach (var i in Query)
-                    query_ListBox.Items.Add(i.ToString());
+                if (courseTokens[0] == c.GetDepartmentCode() && courseTokens[1] == c.GetCourseNumber().ToString())
+                    classExists = true;
             }
-            else if (greaterThan_RadioButton1.Checked)
+
+            if (classExists)
             {
-                var Query =
-                from N in historyPool
-                where getAsciiValue(N.getGrade()) <= getAsciiValue(grade) && courseTokens[0] == N.getDept() && courseTokens[1] == N.getCourseNum().ToString()
-                select N.getZid() + "   " + N.getDept() + "    " + N.getCourseNum() + "     " + N.getGrade();
+                query_ListBox.Items.Add("Grade Threshold Report for (" + course + ")");
+                query_ListBox.Items.Add("-----------------------------------------");
 
-                foreach (var i in Query)
-                    query_ListBox.Items.Add(i.ToString());
+                if (lessThan_RadioButton1.Checked)
+                {
+                    var Query =
+                    from N in historyPool
+                    where getAsciiValue(N.getGrade()) >= getAsciiValue(grade) && courseTokens[0] == N.getDept() && courseTokens[1] == N.getCourseNum().ToString()
+                    select N.getZid() + "   " + N.getDept() + "    " + N.getCourseNum() + "     " + N.getGrade();
+
+                    foreach (var i in Query)
+                        query_ListBox.Items.Add(i.ToString());
+                }
+                else if (greaterThan_RadioButton1.Checked)
+                {
+                    var Query =
+                    from N in historyPool
+                    where getAsciiValue(N.getGrade()) <= getAsciiValue(grade) && courseTokens[0] == N.getDept() && courseTokens[1] == N.getCourseNum().ToString()
+                    select N.getZid() + "   " + N.getDept() + "    " + N.getCourseNum() + "     " + N.getGrade();
+
+                    query_ListBox.Items.Add("Grade Threshold Report for (" + courseTokens[0] + " " + courseTokens[1] + ")");
+                    query_ListBox.Items.Add("------------------------------------");
+
+                    foreach (var i in Query)
+                        query_ListBox.Items.Add(i.ToString());
+
+                    query_ListBox.Items.Add("### END RESULTS ###");
+                }
+
+                query_ListBox.Items.Add("### END RESULTS ###");
             }
+            else
+                query_ListBox.Items.Add("This class does not exist.");
         }
 
         // return adjusted ascii value
@@ -176,13 +230,178 @@ namespace DonnyJustin_Assign3
 
             string temp = gradeReport_RichTextBox.Text;
 
-            var Query =
-                from N in historyPool
-                where N.getDept() == temp
-                select N.getZid() + "   "+ N.getGrade();
+            // check if class exists
+            string[] courseTokens = temp.Split(' ');
+            bool classExists = false;
+            foreach (Course c in coursePool)
+            {
+                if (courseTokens[0] == c.GetDepartmentCode() && courseTokens[1] == c.GetCourseNumber().ToString())
+                   classExists = true;
+            }
 
-            foreach (var i in Query)
-                query_ListBox.Items.Add(i);
+            // print grade report for specified class
+            if (classExists)
+            {
+                var Query =
+                    from N in historyPool
+                    where N.getDept() == courseTokens[0] && N.getCourseNum().ToString() == courseTokens[1]
+                    select N.getZid() + " | " + N.getDept() + " " + N.getCourseNum() + " | " + N.getGrade();
+
+                query_ListBox.Items.Add("Grade Report for (" + courseTokens[0] + " " + courseTokens[1] + ")");
+                query_ListBox.Items.Add("-----------------------------------");
+
+                foreach (var i in Query)
+                    query_ListBox.Items.Add(i);
+
+                query_ListBox.Items.Add("### END RESULTS ###");
+            }
+            else
+                query_ListBox.Items.Add("This class does not exist.");
+        }
+
+        private void failReport_Button_Click(object sender, EventArgs e)
+        {
+            query_ListBox.Items.Clear();
+
+            // get all the class names
+            List<string> courseList = new List<string>();
+            foreach (History h in historyPool)
+            {
+                string dept = h.getDept();
+                string courseNum = h.getCourseNum().ToString();
+                string course = dept + " " + courseNum;
+                if (!courseList.Contains(course))
+                    courseList.Add(course);
+            }
+
+            query_ListBox.Items.Add("Fail Percentage (>= " + failReport_UpDown.Value + "%) Report for Classes.\n");
+            query_ListBox.Items.Add("-------------------------------------------------");
+
+            // get num failed & num enrolled
+            foreach (var c in courseList)
+            {
+                int[] report = failReport(c);
+
+                decimal failPercentThreshold = failReport_UpDown.Value;
+                decimal numFailed = report[0];
+                decimal numEnrolled = report[1];
+                decimal failPercent = numFailed / numEnrolled;
+
+                if (lessThan_RadioButton2.Checked)
+                {
+                    if ((numFailed / numEnrolled)*100 <= failPercentThreshold)
+                    {
+                        query_ListBox.Items.Add("Out of " + numEnrolled + " enrolled in CSCI-240, " + numFailed + " failed " +
+                                                "( " + string.Format("{0:#.##}", failPercent * 100) + "%)");
+                    }
+                }
+                else if (greaterThan_RadioButton2.Checked)
+                {
+                    if ((numFailed / numEnrolled)*100 >= failPercentThreshold)
+                    {
+                        query_ListBox.Items.Add("Out of " + numEnrolled + " enrolled in " + c + ", " + numFailed + " failed " +
+                                                "( " + string.Format("{0:#.##}", failPercent * 100) + "%)");
+                    }
+                }
+            }
+
+            query_ListBox.Items.Add("\n### END RESULTS ###");
+        }
+
+        private int[] failReport(string className)
+        {
+            int enrolledCount = 0;
+            int failCount = 0;
+            string[] classTokens = className.Split(' ');
+            foreach (History h in historyPool)
+            {
+                if (h.getDept() == classTokens[0] && h.getCourseNum() == Convert.ToInt16(classTokens[1]))
+                {
+                    enrolledCount++;
+                    if (h.getGrade() == "F")
+                        failCount++;
+                }
+
+            }
+
+            int[] report = { failCount, enrolledCount };
+            return report;
+        }
+
+        private void passReport_Button_Click(object sender, EventArgs e)
+        {
+            query_ListBox.Items.Clear();
+
+            // get all the class names
+            List<string> courseList = new List<string>();
+            foreach (History h in historyPool)
+            {
+                string dept = h.getDept();
+                string courseNum = h.getCourseNum().ToString();
+                string course = dept + " " + courseNum;
+                if (!courseList.Contains(course))
+                    courseList.Add(course);
+            }
+
+            query_ListBox.Items.Add("Fail Percentage (>= " + passReport_ComboBox.SelectedItem + "%) Report for Classes.\n");
+            query_ListBox.Items.Add("-------------------------------------------------");
+
+            foreach (var c in courseList)
+            {
+                int[] report = passReport(c);
+                decimal numPassed = report[0];
+                decimal numEnrolled = report[1];
+                decimal passPercent = numPassed / numEnrolled;
+                string grade = (string)passReport_ComboBox.SelectedItem;
+
+                // output results
+               if (lessThan_RadioButton3.Checked)
+                {
+                   query_ListBox.Items.Add("Out of " + report[1] + " enrolled in " + c + ", " + report[0] +
+                                           " passed at or below this threshold (" + string.Format("{0:#.##}", passPercent * 100) + "%)");
+                }
+               else if (greaterThan_RadioButton3.Checked)
+                {
+                    query_ListBox.Items.Add("Out of " + report[1] + " enrolled in " + c + ", " + report[0] +
+                                            " passed at or below this threshold (" + string.Format("{0:#.##}", passPercent * 100) + "%)");
+                }
+            }
+        }
+
+        private int[] passReport(string className)
+        {
+            int enrolledCount = 0;
+            int passCount = 0;
+            string[] classTokens = className.Split(' ');
+            string grade = (string)passReport_ComboBox.SelectedItem;
+
+            if (lessThan_RadioButton3.Checked)
+            {
+                foreach (History h in historyPool)
+                {
+                    if (h.getDept() == classTokens[0] && h.getCourseNum() == Convert.ToInt16(classTokens[1]))
+                    {
+                        enrolledCount++;
+                        if (getAsciiValue(h.getGrade()) <= getAsciiValue(grade))
+                            passCount++;
+                    }
+                }
+            }
+            else if (greaterThan_RadioButton3.Checked)
+            {
+                foreach (History h in historyPool)
+                {
+                    if (h.getDept() == classTokens[0] && h.getCourseNum() == Convert.ToInt16(classTokens[1]))
+                    {
+                        enrolledCount++;
+                        if (getAsciiValue(h.getGrade()) >= getAsciiValue(grade))
+                            passCount++;
+                    }
+                }
+            }
+
+            int[] report = { passCount, enrolledCount };
+            return report;
         }
     }
 }

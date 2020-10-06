@@ -401,6 +401,7 @@
             this.failReport_Button.TabIndex = 26;
             this.failReport_Button.Text = "Show Results";
             this.failReport_Button.UseVisualStyleBackColor = false;
+            this.failReport_Button.Click += new System.EventHandler(this.failReport_Button_Click);
             // 
             // passReport_Button
             // 
@@ -414,6 +415,7 @@
             this.passReport_Button.TabIndex = 27;
             this.passReport_Button.Text = "Show Results";
             this.passReport_Button.UseVisualStyleBackColor = false;
+            this.passReport_Button.Click += new System.EventHandler(this.passReport_Button_Click);
             // 
             // label13
             // 
@@ -460,17 +462,19 @@
             // 
             // query_ListBox
             // 
+            this.query_ListBox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.query_ListBox.FormattingEnabled = true;
+            this.query_ListBox.ItemHeight = 15;
             this.query_ListBox.Location = new System.Drawing.Point(490, 33);
             this.query_ListBox.Name = "query_ListBox";
-            this.query_ListBox.Size = new System.Drawing.Size(479, 589);
+            this.query_ListBox.Size = new System.Drawing.Size(635, 574);
             this.query_ListBox.TabIndex = 33;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(981, 627);
+            this.ClientSize = new System.Drawing.Size(1137, 627);
             this.Controls.Add(this.query_ListBox);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.passReport_ComboBox);
