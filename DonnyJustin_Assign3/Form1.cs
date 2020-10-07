@@ -70,10 +70,9 @@ namespace DonnyJustin_Assign3
             // add items to grade_ComboBox
             addGrades(passReport_ComboBox);
 
-            foreach (var i in studentPool.Values)
-            {
-                topStudents(i);
-            }
+           
+            topStudents();
+            
         }
 
         private void addGrades(ComboBox box)
@@ -409,52 +408,43 @@ namespace DonnyJustin_Assign3
             return report;
         }
 
-        private void topStudents(Student student)
+        private void topStudents()
         {
-            // loop through historyPool
-           /* var Query =
-                from H in historyPool
-                where H.getZid() == student.getZid()
-               select H.getZid() + " " + H.getGrade();*/
-           
             IDictionary<uint, decimal> gradePool = new Dictionary<uint, decimal>();
 
             List<uint> zidCheck = new List<uint>();
 
-            foreach (var h in historyPool)
+            foreach (var z in historyPool)
             {
-                int total = 0;
-                if (!zidCheck.Contains(h.getZid()))
-                {
-                    zidCheck.Add(h.getZid());
-                    var Query =
-                        from H in historyPool
-                        where H.getZid() == h.getZid()
-                        select H.getGrade();
-
-                    foreach (var i in Query)
-                    {
-                        total += getAsciiValue(i);
-                    }
-                    gradePool.Add(h.getZid(), total);
-                    //query_ListBox.Items.Add("gradePool: " + h.getZid() + ", " + total);
-
-                    //foreach (var c in zidCheck)
-                    //    query_ListBox.Items.Add("zidCheck: " + c);
-                    
-                }
-                //else
-                    //query_ListBox.Items.Add("************");
-                
+                if (!zidCheck.Contains(z.getZid()))
+                    zidCheck.Add(z.getZid());
             }
-            int stop = 0;
+            
+            foreach (var i in zidCheck)
+            { 
+                int total = 0;
+                var Query =
+                    from H in historyPool
+                    where H.getZid() == i
+                    select H.getGrade();
+
+                foreach (var g in Query)
+                    total += getAsciiValue(g);
+                gradePool.Add(i, total);
+            }
+
             foreach (KeyValuePair<uint, decimal> kvp in gradePool)
             {
-                if (stop <= 1)
-                {
-                    query_ListBox.Items.Add(kvp.Key + " " + kvp.Value);
-                    stop++;
-                }
+                query_ListBox.Items.Add(kvp.Key + " " + kvp.Value);
+            }
+
+            int top4 = 1;
+            while (top4 <= 4)
+            {
+                var keyR = gradePool.OrderBy(kvp => kvp.Value).First();
+                query_ListBox.Items.Add("#" + top4 + " student: " + keyR.Key);
+                gradePool.Remove(keyR.Key);
+                top4++;
             }
         }
     }
