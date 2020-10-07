@@ -1,4 +1,11 @@
-﻿using System;
+﻿///////////////////////////////////////
+/// Donny Kapic z1855273
+/// Justin Roesner z1858242
+/// CSCI 473 .NET programming
+/// Assign 3
+///////////////////////////////////////
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -70,14 +77,15 @@ namespace DonnyJustin_Assign3
             // add items to grade_ComboBox
             addGrades(passReport_ComboBox);
 
-           
+            /* EXTRA CREDIT
             topStudents();
-            
+            hardestClasses();
+            */
         }
 
+        // add items to grade_ComboBox
         private void addGrades(ComboBox box)
         {
-            // add items to grade_ComboBox
             box.Items.Add("A");
             box.Items.Add("A-");
             box.Items.Add("B+");
@@ -92,13 +100,14 @@ namespace DonnyJustin_Assign3
             box.Items.Add("F");
         }
 
+        // Sort Courses alphabetically
         private List<Course> sortCourses(List<Course> coursePool)
         {
-            // Sort Courses alphabetically
             var sortedCourses = coursePool.OrderBy(c => c.GetDepartmentCode()).ToList();
             return sortedCourses;
         }
 
+        // print all the grades for a given ZID
         private void gradeReportOneStudent_Button_Click(object sender, EventArgs e)
         {
             query_ListBox.Items.Clear();
@@ -118,6 +127,7 @@ namespace DonnyJustin_Assign3
                 }
             }
 
+            // run query based on zid and print results
             if (studentExists)
             {
                 var Query =
@@ -138,9 +148,11 @@ namespace DonnyJustin_Assign3
 
         }
 
+        // print grades above or below specified threshold for a given class
         private void gradeThreshold_Button_Click(object sender, EventArgs e)
         {
             query_ListBox.Items.Clear();
+            // get user input
             string grade = (string)grade1_ComboBox.SelectedItem;
             string course = courseThreshold_RichTextBox.Text;
 
@@ -155,17 +167,18 @@ namespace DonnyJustin_Assign3
                     classExists = true;
             }
 
+            // run query
             if (classExists)
             {
-                query_ListBox.Items.Add("Grade Threshold Report for (" + course + ")");
-                query_ListBox.Items.Add("-----------------------------------------");
-
                 if (lessThan_RadioButton1.Checked)
                 {
                     var Query =
                     from N in historyPool
                     where getAsciiValue(N.getGrade()) >= getAsciiValue(grade) && courseTokens[0] == N.getDept() && courseTokens[1] == N.getCourseNum().ToString()
                     select N.getZid() + "   " + N.getDept() + "    " + N.getCourseNum() + "     " + N.getGrade();
+
+                    query_ListBox.Items.Add("Grade Threshold Report for (" + courseTokens[0] + " " + courseTokens[1] + ")");
+                    query_ListBox.Items.Add("------------------------------------");
 
                     foreach (var i in Query)
                         query_ListBox.Items.Add(i.ToString());
@@ -182,8 +195,6 @@ namespace DonnyJustin_Assign3
 
                     foreach (var i in Query)
                         query_ListBox.Items.Add(i.ToString());
-
-                    query_ListBox.Items.Add("### END RESULTS ###");
                 }
 
                 query_ListBox.Items.Add("### END RESULTS ###");
@@ -192,13 +203,22 @@ namespace DonnyJustin_Assign3
                 query_ListBox.Items.Add("This class does not exist.");
         }
 
-        // return adjusted ascii value
+        // black magic
         private int getAsciiValue(string grade)
         {
+            /* Get ascii value of letter grade
+             * Multiply by 3 to make room for positive and negative grades
+             * + subtracts 1
+             * - adds 1 
+             * This turns every letter grade variation into an integer
+             * that can be used elsewhere in the program.
+             */
+
             char letter = ' ';
             char sign = ' ';
             int asciiVal = 0;
 
+            // get letter grade ascii value and multiply by 3
             if (grade.Length == 1)
             {
                 letter = grade[0];
@@ -228,6 +248,7 @@ namespace DonnyJustin_Assign3
             return 0;
         }
 
+        // print grade report for a single course
         private void gradeReportOneCourse_Button_Click(object sender, EventArgs e)
         {
             query_ListBox.Items.Clear();
@@ -263,6 +284,7 @@ namespace DonnyJustin_Assign3
                 query_ListBox.Items.Add("This class does not exist.");
         }
 
+        // print failure rate based on specified percentage
         private void failReport_Button_Click(object sender, EventArgs e)
         {
             query_ListBox.Items.Clear();
@@ -286,6 +308,7 @@ namespace DonnyJustin_Assign3
             {
                 int[] report = failReport(c);
 
+                // calculate failure rate
                 decimal failPercentThreshold = failReport_UpDown.Value;
                 decimal numFailed = report[0];
                 decimal numEnrolled = report[1];
@@ -312,6 +335,7 @@ namespace DonnyJustin_Assign3
             query_ListBox.Items.Add("\n### END RESULTS ###");
         }
 
+        // calculates # of students enrolled and # of students who failed
         private int[] failReport(string className)
         {
             int enrolledCount = 0;
@@ -332,6 +356,7 @@ namespace DonnyJustin_Assign3
             return report;
         }
 
+        // print pass rate based on specified letter grade
         private void passReport_Button_Click(object sender, EventArgs e)
         {
             query_ListBox.Items.Clear();
@@ -352,6 +377,7 @@ namespace DonnyJustin_Assign3
 
             foreach (var c in courseList)
             {
+                // calculate pass rate
                 int[] report = passReport(c);
                 decimal numPassed = report[0];
                 decimal numEnrolled = report[1];
@@ -372,6 +398,7 @@ namespace DonnyJustin_Assign3
             }
         }
 
+        // calculate $ of students enrolled and # of students who passed based on letter grade
         private int[] passReport(string className)
         {
             int enrolledCount = 0;
@@ -408,18 +435,21 @@ namespace DonnyJustin_Assign3
             return report;
         }
 
+        // ### EXTRA CREDIT ###
+        // Determine the 4 smartest students.
         private void topStudents()
         {
             IDictionary<uint, decimal> gradePool = new Dictionary<uint, decimal>();
-
             List<uint> zidCheck = new List<uint>();
 
+            // get list of unique zid
             foreach (var z in historyPool)
             {
                 if (!zidCheck.Contains(z.getZid()))
                     zidCheck.Add(z.getZid());
             }
             
+            // get total grade values for each student
             foreach (var i in zidCheck)
             { 
                 int total = 0;
@@ -433,11 +463,8 @@ namespace DonnyJustin_Assign3
                 gradePool.Add(i, total);
             }
 
-            foreach (KeyValuePair<uint, decimal> kvp in gradePool)
-            {
-                query_ListBox.Items.Add(kvp.Key + " " + kvp.Value);
-            }
-
+            // find lowest total grade value and remove it from dictionary
+            // lower grade total == better average grade (counter-intuitive, I know)
             int top4 = 1;
             while (top4 <= 4)
             {
@@ -446,6 +473,42 @@ namespace DonnyJustin_Assign3
                 gradePool.Remove(keyR.Key);
                 top4++;
             }
+        }
+
+        // ### EXTRA CREDIT ###
+        // Determine the 3 hardest classes.
+        private void hardestClasses()
+        {
+            List<string> courseList = new List<string>();
+            IDictionary<string, decimal> failRateDict = new Dictionary<string, decimal>();
+            
+            // get all the class names
+            foreach (History h in historyPool)
+            {
+                string dept = h.getDept();
+                string courseNum = h.getCourseNum().ToString();
+                string course = dept + " " + courseNum;
+                if (!courseList.Contains(course))
+                    courseList.Add(course);
+            }
+
+            // find fail rate for each course
+            foreach (var c in courseList)
+            {
+                int[] report = failReport(c);
+                decimal numFailed = report[0];
+                decimal numEnrolled = report[1];
+                decimal failPercent = (numFailed / numEnrolled)*100;
+                failRateDict.Add(c, failPercent);
+            }
+
+            var list =
+                (from t in failRateDict
+                 orderby t.Value descending
+                 select t).Take(3);
+
+            foreach (var i in list)
+                query_ListBox.Items.Add(i);
         }
     }
 }
