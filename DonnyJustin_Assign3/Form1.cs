@@ -77,6 +77,12 @@ namespace DonnyJustin_Assign3
             // add items to grade_ComboBox
             addGrades(passReport_ComboBox);
 
+            // populate the majors in combobox
+            foreach (string line in majorLines)
+            {
+                major_ComboBox.Items.Add((line));
+            }
+
             /* EXTRA CREDIT
             topStudents();
             hardestClasses();
@@ -509,6 +515,59 @@ namespace DonnyJustin_Assign3
 
             foreach (var i in list)
                 query_ListBox.Items.Add(i);
+        }
+
+        // Print fails by students of a major button
+        private void majorFails_Button_Click(object sender, EventArgs e)
+        {
+            //clear box
+            query_ListBox.Items.Clear();
+
+            //grab string for major
+            string tempMajor = major_ComboBox.Text;
+
+            //grab department and course number
+            string course = courseFail_RichTextBox.Text;
+            string[] courseTokens = course.Split(' ');
+
+            //get only students of the given major
+            var majorQuery =
+                from S in studentPool
+                where S.Value.getMajor().Equals(tempMajor)
+                select S.Value.getZid();
+
+            //get only the student history for the students of the given major
+            var historyQuery =
+                from Q in majorQuery
+                join H in historyPool
+                on Q equals H.getZid()
+                //left combine only students of given major
+                into combined
+                from combined_group in combined
+                where combined_group.getDept() == courseTokens[0] && courseTokens[1] == combined_group.getCourseNum().ToString()
+                select new
+                {
+                    Zid = combined_group.getZid(),
+                    Grade = combined_group.getGrade()
+                };
+
+            //get only the student id's of the students who have failed the course
+            var onlyFails =
+                from hQ in historyQuery
+                where hQ.Grade == "F"
+                select hQ.Zid;
+
+
+            //print the students
+            query_ListBox.Items.Add("Fail Report of Majors (" + tempMajor + ") in " + courseTokens[0] + " " + courseTokens[1]);
+            query_ListBox.Items.Add("----------------------------------------------");
+
+            foreach (var i in onlyFails)
+            {
+                query_ListBox.Items.Add("z" + i + "    |     " + courseTokens[0] + "-" + courseTokens[1] + "    |    " + "F");
+            }
+            query_ListBox.Items.Add(" ");
+            query_ListBox.Items.Add("### END RESULTS ###");
         }
     }
 }

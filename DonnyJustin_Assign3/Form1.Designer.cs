@@ -261,6 +261,7 @@
             this.majorFails_Button.TabIndex = 18;
             this.majorFails_Button.Text = "Show Results";
             this.majorFails_Button.UseVisualStyleBackColor = false;
+            this.majorFails_Button.Click += new System.EventHandler(this.majorFails_Button_Click);
             // 
             // label9
             // 
